@@ -374,12 +374,7 @@ struct RecordingsListView: View {
     @State private var searchText = ""
 
     var filtered: [Recording] {
-        guard !searchText.isEmpty else { return store.recordings }
-        return store.recordings.filter {
-            $0.name.localizedCaseInsensitiveContains(searchText) ||
-            ($0.transcript?.localizedCaseInsensitiveContains(searchText) ?? false) ||
-            ($0.translation?.localizedCaseInsensitiveContains(searchText) ?? false)
-        }
+        SolarSearchService.filter(recordings: store.recordings, query: searchText)
     }
 
     var body: some View {
@@ -394,9 +389,7 @@ struct RecordingsListView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    ImportButton { url in
-                        store.load()
-                    }
+                    ImportButton { _ in store.load() }
                 }
             }
         }
