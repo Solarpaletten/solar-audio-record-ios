@@ -392,6 +392,13 @@ struct RecordingsListView: View {
             .navigationTitle("Записи")
             .navigationBarTitleDisplayMode(.large)
             .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ImportButton { url in
+                        store.load()
+                    }
+                }
+            }
         }
         .sheet(item: $shareURL) { url in ShareSheet(items: [url]) }
     }
